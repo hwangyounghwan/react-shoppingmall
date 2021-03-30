@@ -2,6 +2,10 @@ import './App.css';
 import { Navbar,Nav,NavDropdown,Jumbotron,Button,Container,Row,Col } from 'react-bootstrap';
 import React, {useState} from 'react';
 import Data from "./data";
+import Detail from "./Detail.js"
+
+import { Link, Route, Switch} from 'react-router-dom'
+
 
 function App() {
 
@@ -10,12 +14,12 @@ function App() {
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">pet shop</Navbar.Brand>
+        <Navbar.Brand href="#home">Shose Shop</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link><Link to="/">Home</Link></Nav.Link>
+            <Nav.Link><Link to ="/detail">Detail</Link></Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -28,24 +32,33 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
 
-      <Jumbotron className='background'>
-        <h1>20% DC Event</h1>
-        <p>
-          <Button variant="primary">Learn more</Button>
-        </p>
-      </Jumbotron>
 
-      <Container>
-        <Row>
-          {
-            shoes.map((a,i) => {
-             return(
-                 <ShoesList shoes = {shoes} i = {i}/>
-             );
-          })
-          }
-        </Row>
-      </Container>
+        
+        <Route exact path = "/">
+            <div>메인 페이지 입니다 </div>
+            <Jumbotron className='background'>
+                <h1>20% DC Event</h1>
+                <p>
+                    <Button variant="primary">Learn more</Button>
+                </p>
+            </Jumbotron>
+            <Container>
+                <Row>
+                    {
+                        shoes.map((a,i) => {
+                            return(
+                                <ShoesList shoes = {shoes} i = {i}/>
+                            );
+                        })
+                    }
+                </Row>
+            </Container>
+        </Route>
+        
+        <Route exact path = "/detail">
+        <Detail/>
+        </Route>
+
 
     </div>
   );
