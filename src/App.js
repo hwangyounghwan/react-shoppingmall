@@ -5,11 +5,13 @@ import Data from "./data";
 import Detail from "./Detail.js"
 
 import { Link, Route, Switch} from 'react-router-dom'
-
+import axios from "axios";
 
 function App() {
 
   let [shoes, shoesChange] = useState (Data);
+  let [재고, 재고변경] = useState([10,11,12]);
+
 
   return (
     <div className="App">
@@ -53,10 +55,15 @@ function App() {
                     }
                 </Row>
             </Container>
+            <button className="btn btn-primary" onClick={() => {axios.get('https://codingapple1.github.io/shop/data2.json').then((result)=>{
+                shoesChange(([...shoes,...result.data]));
+            }).catch(() =>{
+
+            })}}>더보기</button>
         </Route>
         
-        <Route exact path = "/detail">
-        <Detail/>
+        <Route exact path = "/detail" >
+        <Detail info = {재고} />
         </Route>
 
 
