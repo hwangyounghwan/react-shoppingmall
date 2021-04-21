@@ -2,6 +2,9 @@ import {Route} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
 import './Detail.scss'
+import {connect} from "react-redux";
+import {useHistory} from "react-router-dom";
+
 
 let 박스 = styled.div`
 padding : 20px
@@ -14,6 +17,7 @@ fontSize : 25px
 function Detail (props) {
     let [alert, alertChange] = useState(true);
     let [inputData, dataChange] = useState();
+    let history = useHistory();
     useEffect(() =>{
             setTimeout(() => {alertChange(false);
             } , 2000)
@@ -27,7 +31,7 @@ function Detail (props) {
     <div className="container" >
         <div className="row">
             <div className="col-md-6">
-                <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
+                <img src={`https://codingapple1.github.io/shop/shoes{$props.i+1}.jpg`} width="100%" />
             </div>
             <div className="col-md-6 mt-4">
                 <박스>
@@ -46,7 +50,9 @@ function Detail (props) {
                 <p>상품설명</p>
                 <p>120000원</p>
                 <Info info = {props.info}/>
-                <button className="btn btn-danger">주문하기</button>
+                <button className="btn btn-danger" onClick={() => {
+                    props.dispatch({type : '항목추가', payload : {id:2, name:'새로운상품', quan : 1}});
+                    history.push('/cart');}}>주문하기</button>
             </div>
         </div>
     </div>
@@ -57,4 +63,10 @@ function Info (props) {
         <p>재고 : {props.info} </p>
     )
 }
-export default Detail;
+
+function state를props화 (state){
+    return {
+        state : state.reducer
+    }
+}
+export default connect(state를props화)(Detail);

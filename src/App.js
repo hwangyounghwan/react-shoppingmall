@@ -3,14 +3,14 @@ import { Navbar,Nav,NavDropdown,Jumbotron,Button,Container,Row,Col } from 'react
 import React, {useState} from 'react';
 import Data from "./data";
 import Detail from "./Detail.js"
+import Cart from "./Cart"
 
-import { Link, Route, Switch} from 'react-router-dom'
+import { Link, Route} from 'react-router-dom'
 import axios from "axios";
 
 function App() {
 
   let [shoes, shoesChange] = useState (Data);
-  let [재고, 재고변경] = useState([10,11,12]);
 
 
   return (
@@ -45,14 +45,20 @@ function App() {
                 </p>
             </Jumbotron>
             <Container>
-                <Row>
-                    {
-                        shoes.map((a,i) => {
-                            return(
-                                <ShoesList shoes = {shoes} i = {i}/>
-                            );
-                        })
-                    }
+                    <Row>
+                        {
+                            shoes.map((a,i) => {
+                                if(i <7)
+                                return(
+                                    <ShoesList shoes = {shoes} i = {i}/>
+                                    );
+                                else{
+                                    return (
+                                        <div></div>
+                                    )
+                                }
+                            })
+                        }
                 </Row>
             </Container>
             <button className="btn btn-primary" onClick={() => {axios.get('https://codingapple1.github.io/shop/data2.json').then((result)=>{
@@ -63,18 +69,21 @@ function App() {
         </Route>
         
         <Route exact path = "/detail" >
-        <Detail info = {재고} />
+        <Detail/>
         </Route>
-
+        <Route path="/cart">
+          <Cart></Cart>
+        </Route>
 
     </div>
   );
 }
 
 function ShoesList (props) {
+
   return (
       <Col>
-        <img src={props.shoes[props.i].img} width="100%" alt={"신발 이미지1"}/>
+        <a><img src= {'https://codingapple1.github.io/shop/shoes'+(props.i+1)+'.jpg'} width="100%" alt={"신발 이미지1"}/></a>
         <h4>{props.shoes[props.i].title}</h4>
         <p>{props.shoes[props.i].content}</p>
         <p>{props.shoes[props.i].price}</p>

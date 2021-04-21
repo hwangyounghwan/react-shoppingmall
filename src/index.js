@@ -5,12 +5,49 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import{BrowserRouter} from "react-router-dom";
+import{Provider} from "react-redux";
+import {combineReducers, createStore} from "redux";
 
+let defArray = [{id :0, name : '멋진 신발', quan : 2},{id:1, name:'멋진신발2',quan:1}]
+
+
+function reducer(state = defArray, action) {
+    if(action.type === '항목추가'){
+        let copy = [...state]
+        copy.push(action.payload)
+        return copy
+    }
+    if(action.type === 'increase'){
+        let copy = [...state];
+        copy[0].quan++;
+        return copy
+    }
+    else if(action.type === 'decrease'){
+        let copy = [...state];
+        copy[0].quan--;
+        return copy
+    }
+    else {
+        return state
+    }
+}
+
+function reducer2(state = true, action){
+    if (action.type === true){
+        return false;
+    }else{
+        return state;
+    }
+}
+
+let store = createStore(combineReducers({reducer,reducer2}));
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-        <App />
+        <Provider store={store}>
+            <App />
+        </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
